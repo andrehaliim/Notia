@@ -32,7 +32,23 @@ class _HomepageState extends State<Homepage> {
               final provider = Provider.of<ThemeProvider>(context, listen: false);
               provider.toggleTheme(!provider.isDarkMode);
             },
-            icon: Icon(themeProvider.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  ),
+                );
+              },
+              child: Icon(
+                themeProvider.isDarkMode ? Icons.sunny : Icons.nightlight,
+                size: 20,
+                key: ValueKey<bool>(themeProvider.isDarkMode),
+              ),
+            ),
           ),
         ],
       ),
@@ -41,7 +57,7 @@ class _HomepageState extends State<Homepage> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => CreateNote()));
         },
-        child: Icon(Iconsax.note_add_bold),
+        child: Icon(Iconsax.note_text_bold, size: 30,),
       ),
     );
   }

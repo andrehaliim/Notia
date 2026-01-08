@@ -11,8 +11,10 @@ class CreateNote extends StatefulWidget {
 class _CreateNoteState extends State<CreateNote> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  final tagController = TextEditingController();
   final descriptionFocusNode = FocusNode();
   bool isVisible = false;
+  bool isVisibleTag = false;
 
   @override
   void initState() {
@@ -26,6 +28,7 @@ class _CreateNoteState extends State<CreateNote> {
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
+    tagController.dispose();
     descriptionFocusNode.dispose();
     super.dispose();
   }
@@ -36,12 +39,18 @@ class _CreateNoteState extends State<CreateNote> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back_ios_new)),
+        shape: Border(
+          bottom: BorderSide(
+            color: Colors.grey.withAlpha(50),
+            width: 1.0,
+          ),
+        ),
         title: TextField(
           controller: titleController,
           decoration: InputDecoration(
             hintText: 'Title',
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 1)),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 1)),
+            border: InputBorder.none
           ),
         ),
         actions: [
@@ -50,6 +59,9 @@ class _CreateNoteState extends State<CreateNote> {
             onSelected: (value) {
               if (value == 'search') {
               } else if (value == 'add_tag') {
+                setState(() {
+                  isVisibleTag = !isVisibleTag;
+                });
               } else if (value == 'delete') {}
             },
             itemBuilder: (BuildContext context) {
@@ -107,6 +119,63 @@ class _CreateNoteState extends State<CreateNote> {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
+
+          Visibility(
+            visible: isVisibleTag,
+            child: Container(
+              margin: EdgeInsets.all(16),
+              height: MediaQuery.of(context).size.height / 3,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Tags',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Spacer(),
+                      Text(
+                        'Save',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    decoration: InputDecoration(
+                      hintText: 'Create new tag',
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15),
+                      prefixIcon: Icon(Iconsax.hashtag_outline, color: Theme.of(context).colorScheme.primary, size: 20,),
+                      suffixIcon: GestureDetector(
+                          onTap: (){
+
+                          },
+                          child: Icon(Icons.add_circle, color: Theme.of(context).colorScheme.primary, size: 20,)),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Done'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
           AnimatedPositioned(
             duration: const Duration(milliseconds: 300),
             curve: Curves.fastLinearToSlowEaseIn,
@@ -150,22 +219,13 @@ class _CreateNoteState extends State<CreateNote> {
           Positioned(
             right: 16,
             bottom: 16,
-            child: Container(
-              height: panelHeight / 5,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 4))],
-              ),
-              child: IconButton(
-                icon: Icon(!isVisible ? Iconsax.magicpen_bold : Icons.close),
-                onPressed: () {
-                  setState(() {
-                    isVisible = !isVisible;
-                  });
-                },
-              ),
+            child: FloatingActionButton(
+              child: Icon(!isVisible ? Iconsax.magicpen_bold : Icons.close),
+              onPressed: () {
+                setState(() {
+                  isVisible = !isVisible;
+                });
+              },
             ),
           ),
         ],
@@ -195,12 +255,11 @@ class AiToolsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(icon, color: Theme.of(context).colorScheme.primary, size: 14),
+            Icon(icon, size: 14),
             SizedBox(width: 5),
             Text(
               title,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
