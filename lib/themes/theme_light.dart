@@ -10,12 +10,10 @@ ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primary: AppColors.indigo,
     onPrimary: Colors.white,
-    secondary: AppColors.indigo,
+    secondary: AppColors.indigo.withAlpha(50),
     onSecondary: Colors.white,
     error: AppColors.error,
     onError: Colors.white,
-    background: AppColors.lightBackground,
-    onBackground: AppColors.textPrimaryLight,
     surface: AppColors.lightSurface,
     onSurface: AppColors.textPrimaryLight,
   ),
@@ -29,6 +27,8 @@ ThemeData lightTheme = ThemeData(
     foregroundColor: AppColors.textPrimaryLight,
     elevation: 0,
     centerTitle: false,
+    scrolledUnderElevation: 0,
+    surfaceTintColor: Colors.transparent,
   ),
 
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -85,4 +85,11 @@ ThemeData lightTheme = ThemeData(
     // Metadata / hints
     bodySmall: TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
   ),
+
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        splashFactory: NoSplash.splashFactory,
+      ),
+    )
 );

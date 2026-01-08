@@ -10,12 +10,10 @@ ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     primary: AppColors.indigoDark,
     onPrimary: Colors.white,
-    secondary: AppColors.indigoDark,
+    secondary: AppColors.indigoDark.withAlpha(50),
     onSecondary: Colors.white,
     error: AppColors.error,
     onError: Colors.white,
-    background: AppColors.darkBackground,
-    onBackground: AppColors.textPrimaryDark,
     surface: AppColors.darkSurface,
     onSurface: AppColors.textPrimaryDark,
   ),
@@ -29,6 +27,8 @@ ThemeData darkTheme = ThemeData(
     foregroundColor: AppColors.textPrimaryDark,
     elevation: 0,
     centerTitle: false,
+    scrolledUnderElevation: 0,
+    surfaceTintColor: Colors.transparent,
   ),
 
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -85,4 +85,11 @@ ThemeData darkTheme = ThemeData(
     // Metadata / hints
     bodySmall: TextStyle(fontSize: 12, color: AppColors.textSecondaryDark),
   ),
+
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        splashFactory: NoSplash.splashFactory,
+      ),
+    )
 );
