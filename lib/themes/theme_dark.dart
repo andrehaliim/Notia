@@ -80,10 +80,10 @@ ThemeData darkTheme = ThemeData(
     bodyLarge: TextStyle(fontSize: 16, height: 1.5, color: AppColors.textPrimaryDark),
 
     // Secondary content
-    bodyMedium: TextStyle(fontSize: 14, height: 1.4, color: AppColors.textSecondaryDark),
+    bodyMedium: TextStyle(fontSize: 14, height: 1.4, color: AppColors.textPrimaryDark),
 
     // Metadata / hints
-    bodySmall: TextStyle(fontSize: 12, color: AppColors.textSecondaryDark),
+    bodySmall: TextStyle(fontSize: 12, color: AppColors.textPrimaryDark),
   ),
 
     iconButtonTheme: IconButtonThemeData(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:notia/components/tags.dart';
 
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key});
@@ -11,10 +12,8 @@ class CreateNote extends StatefulWidget {
 class _CreateNoteState extends State<CreateNote> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
-  final tagController = TextEditingController();
   final descriptionFocusNode = FocusNode();
   bool isVisible = false;
-  bool isVisibleTag = false;
 
   @override
   void initState() {
@@ -28,7 +27,6 @@ class _CreateNoteState extends State<CreateNote> {
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
-    tagController.dispose();
     descriptionFocusNode.dispose();
     super.dispose();
   }
@@ -59,9 +57,12 @@ class _CreateNoteState extends State<CreateNote> {
             onSelected: (value) {
               if (value == 'search') {
               } else if (value == 'add_tag') {
-                setState(() {
-                  isVisibleTag = !isVisibleTag;
-                });
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const Tags();
+                  },
+                );
               } else if (value == 'delete') {}
             },
             itemBuilder: (BuildContext context) {
@@ -117,62 +118,6 @@ class _CreateNoteState extends State<CreateNote> {
               expands: true,
               decoration: const InputDecoration(border: InputBorder.none),
               style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-
-          Visibility(
-            visible: isVisibleTag,
-            child: Container(
-              margin: EdgeInsets.all(16),
-              height: MediaQuery.of(context).size.height / 3,
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Tags',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      Spacer(),
-                      Text(
-                        'Save',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    decoration: InputDecoration(
-                      hintText: 'Create new tag',
-                      isDense: true,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 15),
-                      prefixIcon: Icon(Iconsax.hashtag_outline, color: Theme.of(context).colorScheme.primary, size: 20,),
-                      suffixIcon: GestureDetector(
-                          onTap: (){
-
-                          },
-                          child: Icon(Icons.add_circle, color: Theme.of(context).colorScheme.primary, size: 20,)),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Done'),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
 
@@ -259,7 +204,11 @@ class AiToolsWidget extends StatelessWidget {
             SizedBox(width: 5),
             Text(
               title,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),

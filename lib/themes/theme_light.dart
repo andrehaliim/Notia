@@ -80,10 +80,10 @@ ThemeData lightTheme = ThemeData(
     bodyLarge: TextStyle(fontSize: 16, height: 1.5, color: AppColors.textPrimaryLight),
 
     // Secondary content
-    bodyMedium: TextStyle(fontSize: 14, height: 1.4, color: AppColors.textSecondaryLight),
+    bodyMedium: TextStyle(fontSize: 14, height: 1.4, color: AppColors.textPrimaryLight),
 
     // Metadata / hints
-    bodySmall: TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
+    bodySmall: TextStyle(fontSize: 12, color: AppColors.textPrimaryLight),
   ),
 
     iconButtonTheme: IconButtonThemeData(
